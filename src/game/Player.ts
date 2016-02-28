@@ -1,19 +1,26 @@
 class Player {
     
+    private hero: Hero;
+    
+    private minions: Minion[] = [];
+    
     private id: number = -1;
     
     private mana: number;
-    private minions: Minion[] = [];
     
-    setId(id: number) {
+    public setId(id: number) {
         this.id = id;
     }
     
-    getMana(): number {
+    public getHero(): Hero {
+        return this.hero;
+    }
+    
+    public getMana(): number {
         return this.mana;
     }
     
-    getMinions(): Minion[] {
+    public getMinions(): Minion[] {
         return this.minions;
     }
     

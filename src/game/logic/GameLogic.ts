@@ -88,8 +88,18 @@ class GameLogic {
     }
     
     public getTotalAttributeValue(player: Player, attr: Attribute): number {
-        // TODO
-        return 0;
+        var total: number = player.getHero().getAttributeValue(attr);
+        var minions: Minion[] = player.getMinions();
+        for (var i: number = 0; i < minions.length; ++i) {
+            var minion: Minion = minions[i];
+            if (!minion.hasAttribute(attr))
+            {
+                continue;
+            }
+            
+            total += minion.getAttributeValue(attr);
+        }
+        return total;
     }
     
 }
