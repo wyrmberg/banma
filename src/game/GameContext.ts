@@ -5,6 +5,7 @@ class GameContext {
     
     private players: Player[];
     private logic: GameLogic;
+    private cardCostModifiers: CardCostModifier[] = [];
     
     constructor(player1: Player, player2: Player, logic: GameLogic) {
         this.getPlayers()[GameContext.PLAYER_1] = player1;
@@ -16,23 +17,27 @@ class GameContext {
         this.logic.setContext(this);
     }
     
-    getPlayer(index: number): Player {
+    public getCardCostModifiers(): CardCostModifier[] {
+        return this.cardCostModifiers;
+    }
+    
+    public getPlayer(index: number): Player {
         return this.players[index];
     }
     
-    getPlayer1(): Player {
+    public getPlayer1(): Player {
         return this.getPlayers()[GameContext.PLAYER_1];
     }
     
-    getPlayer2(): Player {
+    public getPlayer2(): Player {
         return this.getPlayers()[GameContext.PLAYER_2];
     }
     
-    getPlayers(): Player[] {
+    public getPlayers(): Player[] {
         return this.players;
     }
     
-    resolveCardReference(cardReference: CardReference): Card {
+    public resolveCardReference(cardReference: CardReference): Card {
         // TODO
         return null;
     }

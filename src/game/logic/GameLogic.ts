@@ -62,8 +62,29 @@ class GameLogic {
     }
     
     public getModifiedManaCost(player: Player, card: Card): number {
-        // TODO
-        return 0;
+        var manaCost: number = card.getManaCost(this.context, player);
+        var minValue: number = 0;
+        var costModifiers: CardCostModifier[] = this.context.getCardCostModifiers();
+        for (var i: number = 0; i < costModifiers.length; ++i) {
+            var costModifier: CardCostModifier = costModifiers[i];
+            if (!costModifier.appliesTo(card)) {
+                continue;
+            }
+            manaCost = costModifier.process(card, manaCost);
+            if (costModifier.getMinValue() > minValue) {
+                minValue = costModifier.getMinValue();
+            }
+        }
+        if (card.hasAttribute(Attribute.MANA_COST_MODIFIER)) {
+            manaCost += card.getAttributeValue(Attribute.MANA_COST_MODIFIER);
+        }
+        if (manaCost < minValue) {
+            manaCost = minValue;
+        }
+        if (manaCost > 2147483647) {
+            manaCost = 2147483647;
+        }
+        return manaCost;
     }
     
     public getTotalAttributeValue(player: Player, attr: Attribute): number {
