@@ -1,0 +1,3 @@
+class Minion extends Actor {
+    
+}
