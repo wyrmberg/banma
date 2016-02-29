@@ -20,7 +20,7 @@ module.exports = function (grunt) {
                 dest: 'js/banma.js',
                 options: {
                     module: 'amd',
-                    target: 'es5'
+                    target: 'es6'
                 }
             }
         },
