@@ -21,6 +21,14 @@ class GameContext {
         return this.cardCostModifiers;
     }
     
+    public getMinionCount(player: Player): number {
+        return player.getMinions().length;
+    }
+    
+    public getOpponent(player: Player): Player {
+        return player.getId() == GameContext.PLAYER_1 ? this.getPlayer2() : this.getPlayer1();
+    }
+    
     public getPlayer(index: number): Player {
         return this.players[index];
     }
@@ -35,6 +43,14 @@ class GameContext {
     
     public getPlayers(): Player[] {
         return this.players;
+    }
+    
+    public getTotalMinionCount(): number {
+        var totalMinionCount: number = 0;
+        for (var i: number = 0; i < this.players.length; ++i) {
+            totalMinionCount += this.getMinionCount(this.players[i]);
+        }
+        return totalMinionCount;
     }
     
     public resolveCardReference(cardReference: CardReference): Card {

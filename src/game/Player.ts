@@ -8,12 +8,12 @@ class Player {
     
     private mana: number;
     
-    public setId(id: number) {
-        this.id = id;
-    }
-    
     public getHero(): Hero {
         return this.hero;
+    }
+    
+    public getId(): number {
+        return this.id;
     }
     
     public getMana(): number {
@@ -22,6 +22,10 @@ class Player {
     
     public getMinions(): Minion[] {
         return this.minions;
+    }
+    
+    public setId(id: number) {
+        this.id = id;
     }
     
 }
