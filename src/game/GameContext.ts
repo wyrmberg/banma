@@ -17,6 +17,11 @@ class GameContext {
         this.logic.setContext(this);
     }
     
+    public findCardinCollection(cardCollection: CardCollection, cardId: number): Card {
+        // TODO
+        return null;
+    }
+    
     public getCardCostModifiers(): CardCostModifier[] {
         return this.cardCostModifiers;
     }
@@ -27,6 +32,11 @@ class GameContext {
     
     public getOpponent(player: Player): Player {
         return player.getId() == GameContext.PLAYER_1 ? this.getPlayer2() : this.getPlayer1();
+    }
+    
+    public getPendingCard(): Card {
+        // TODO
+        return null;
     }
     
     public getPlayer(index: number): Player {
@@ -54,7 +64,24 @@ class GameContext {
     }
     
     public resolveCardReference(cardReference: CardReference): Card {
-        // TODO
+        var player: Player = this.getPlayer(cardReference.getPlayerId());
+        if (this.getPendingCard() != null && this.getPendingCard().getCardReference().equals(cardReference)) {
+            return this.getPendingCard();
+        }
+        var location: CardLocation = cardReference.getLocation();
+        if (location == CardLocation.DECK) {
+            return this.findCardinCollection(player.getDeck(), cardReference.getCardId());
+        }
+        if (location == CardLocation.HAND) {
+            return this.findCardinCollection(player.getHand(), cardReference.getCardId());
+        }
+        if (location == CardLocation.PENDING) {
+            return this.getPendingCard();
+        }
+        if (location == CardLocation.HERO_POWER) {
+            return player.getHero().getHeroPower();
+        }
+        
         return null;
     }
     
