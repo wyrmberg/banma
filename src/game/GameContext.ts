@@ -18,7 +18,13 @@ class GameContext {
     }
     
     public findCardinCollection(cardCollection: CardCollection, cardId: number): Card {
-        // TODO
+        var cards: Card[] = cardCollection.iterator();
+        for (var i: number = 0; i < cards.length; ++i) {
+            var card: Card = cards[i];
+            if (card.getId() == cardId) {
+                return card;
+            }
+        }
         return null;
     }
     
