@@ -1,0 +1,3 @@
+class SecretCard extends SpellCard {
+    
+}

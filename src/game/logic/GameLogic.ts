@@ -48,6 +48,10 @@ class GameLogic {
         return true;
     }
     
+    public canPlaySecret(player: Player, card: SecretCard): boolean {
+        return player.getSecrets().size < GameLogic.MAX_SECRETS && !player.getSecrets().has(card.getCardId());
+    }
+    
     public canSummonMoreMinions(player: Player): boolean {
         var minionsInPlay: number = 0;
         var minions: Minion[] = player.getMinions();

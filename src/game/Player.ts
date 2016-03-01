@@ -8,6 +8,7 @@ class Player {
     private setAsideZone: Entity[] = [];
     private graveyard: Entity[] = [];
     private minions: Minion[] = [];
+    private secrets: Set<string> = new Set<string>();
     
     private id: number = -1;
     
@@ -39,6 +40,10 @@ class Player {
     
     public getMinions(): Minion[] {
         return this.minions;
+    }
+    
+    public getSecrets(): Set<string> {
+        return this.secrets;
     }
     
     public getSetAsideZone(): Entity[] {
