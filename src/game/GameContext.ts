@@ -42,7 +42,7 @@ class GameContext {
         if (!this.environment.has(Environment.EVENT_TARGET_REFERENCE_STACK)) {
             this.environment.set(Environment.EVENT_TARGET_REFERENCE_STACK, new Stack<EntityReference>());
         }
-        return <Stack<EntityReference>> environment.get(Environment.EVENT_TARGET_REFERENCE_STACK);
+        return <Stack<EntityReference>> this.environment.get(Environment.EVENT_TARGET_REFERENCE_STACK);
     }
     
     public getMinionCount(player: Player): number {
@@ -54,8 +54,7 @@ class GameContext {
     }
     
     public getPendingCard(): Card {
-        // TODO
-        return null;
+        return <Card> this.resolveSingleTarget(<EntityReference> this.getEnvironment().get(Environment.PENDING_CARD));
     }
     
     public getPlayer(index: number): Player {
