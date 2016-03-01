@@ -5,6 +5,7 @@ class GameContext {
     
     private players: Player[];
     private logic: GameLogic;
+    private targetLogic: TargetLogic = new TargetLogic();
     private cardCostModifiers: CardCostModifier[] = [];
     
     constructor(player1: Player, player2: Player, logic: GameLogic) {
@@ -89,6 +90,13 @@ class GameContext {
         }
         
         return null;
+    }
+    
+    public resolveSingleTarget(targetKey: EntityReference): Entity {
+        if (targetKey == null) {
+            return null;
+        }
+        return this.targetLogic.findEntity(this, targetKey);
     }
     
 }

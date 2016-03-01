@@ -5,6 +5,8 @@ class Player {
     
     private deck: CardCollection;
     private hand: CardCollection = new CardCollection();
+    private setAsideZone: Entity[] = [];
+    private graveyard: Entity[] = [];
     private minions: Minion[] = [];
     
     private id: number = -1;
@@ -13,6 +15,10 @@ class Player {
     
     public getDeck(): CardCollection {
         return this.deck;
+    }
+    
+    public getGraveyard(): Entity[] {
+        return this.graveyard;
     }
     
     public getHand(): CardCollection {
@@ -33,6 +39,10 @@ class Player {
     
     public getMinions(): Minion[] {
         return this.minions;
+    }
+    
+    public getSetAsideZone(): Entity[] {
+        return this.setAsideZone;
     }
     
     public setId(id: number) {
