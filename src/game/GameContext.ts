@@ -6,6 +6,7 @@ class GameContext {
     private players: Player[];
     private logic: GameLogic;
     private targetLogic: TargetLogic = new TargetLogic();
+    private environment: Map<Environment, any> = new Map<Environment, any>();
     private cardCostModifiers: CardCostModifier[] = [];
     
     constructor(player1: Player, player2: Player, logic: GameLogic) {
@@ -31,6 +32,17 @@ class GameContext {
     
     public getCardCostModifiers(): CardCostModifier[] {
         return this.cardCostModifiers;
+    }
+    
+    public getEnvironment(): Map<Environment, any> {
+        return this.environment;
+    }
+    
+    public getEventTargetStack(): Stack<EntityReference> {
+        if (!this.environment.has(Environment.EVENT_TARGET_REFERENCE_STACK)) {
+            this.environment.set(Environment.EVENT_TARGET_REFERENCE_STACK, new Stack<EntityReference>());
+        }
+        return <Stack<EntityReference>> environment.get(Environment.EVENT_TARGET_REFERENCE_STACK);
     }
     
     public getMinionCount(player: Player): number {

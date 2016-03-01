@@ -44,7 +44,17 @@ class TargetLogic {
     }
     
     public findInEnvironment(context: GameContext, targetKey: EntityReference): Entity {
-        // TODO
+        var targetId: number = targetKey.getId();
+        if (context.getEnvironment().has(Environment.SUMMONED_WEAPON) && targetKey == context.getEnvironment().get(Environment.SUMMONED_WEAPON)) {
+            var reference: EntityReference = <EntityReference> context.getEnvironment().get(Environment.SUMMONED_WEAPON);
+            var summonedWeapon: Actor = <Actor> context.resolveSingleTarget(reference);
+            if (summonedWeapon.getId() == targetId) {
+                return summonedWeapon;
+            }
+        }
+        if (!context.getEventTargetStack().isEmpty() && targetKey == EntityReference.EVENT_TARGET) {
+            return context.resolveSingleTarget(context.getEventTargetStack().peek());
+        }
         return null;
     }
     
