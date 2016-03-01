@@ -1,0 +1,3 @@
+enum Race {
+    NONE, BEAST, MURLOC, PIRATE, DEMON, DRAGON, TOTEM, MECH
+}

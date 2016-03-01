@@ -1,13 +1,20 @@
 abstract class Entity {
     
     private name: string;
-    protected attributes: { [index: number]: any };
+    protected attributes: Map<Attribute, any> = new Map<Attribute, any>();
     private id: number = IdFactory.UNASSIGNED;
     private ownerId: number = -1;
     
+    public getAttribute(attribute: Attribute): any {
+        return this.attributes.get(attribute);
+    }
+    
+    public getAttributes(): Map<Attribute, any> {
+        return this.attributes;
+    }
+    
     public getAttributeValue(attribute: Attribute): number {
-        var value: any = this.attributes[attribute];
-        return value != null ? value : 0;
+        return this.attributes.has(attribute) ? <number> this.attributes.get(attribute) : 0;
     }
     
     public getId(): number {
