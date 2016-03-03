@@ -1,6 +1,6 @@
 class Desc<T> {
     
-    private arguments: Map<T, any>;
+    protected arguments: Map<T, any>;
     
     constructor(args: Map<T, any>) {
         this.arguments = args;

@@ -8,6 +8,10 @@ class Hero extends Actor {
         return this.destroyedWeapon;
     }
     
+    public getEntityType(): EntityType {
+        return EntityType.HERO;
+    }
+    
     public getHeroPower(): HeroPower {
         return this.heroPower;
     }

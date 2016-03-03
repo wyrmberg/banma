@@ -22,4 +22,8 @@ class SpellCard extends Card {
         return true;
     }
     
+    public getTargetRequirement(): TargetSelection {
+        return this.targetRequirement;
+    }
+    
 }

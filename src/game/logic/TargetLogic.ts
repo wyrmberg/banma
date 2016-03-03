@@ -58,4 +58,13 @@ class TargetLogic {
         return null;
     }
     
+    public resolveTargetKey(context: GameContext, player: Player, source: Entity, targetKey: EntityReference): List<Entity> {
+        if (targetKey == null || targetKey == EntityReference.NONE) {
+            return null;
+        }
+        
+        // TODO
+        return null;
+    }
+    
 }

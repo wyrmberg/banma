@@ -14,6 +14,10 @@ class GameLogic {
 	public static WINDFURY_ATTACKS: number = 2;
 	public static MEGA_WINDFURY_ATTACKS: number = 4;
 
+    private targetLogic: TargetLogic = new TargetLogic();
+    private actionLogic: ActionLogic = new ActionLogic();
+    private spellFactory: SpellFactory = new SpellFactory();
+    private ifFactory: IdFactory;
     private context: GameContext;
     
     setContext(context: GameContext) {
@@ -65,6 +69,47 @@ class GameLogic {
         return minionsInPlay < GameLogic.MAX_MINIONS;
     }
     
+    public castSpell(playerId: number, spellDesc: SpellDesc, sourceReference: EntityReference, targetReference: EntityReference, childSpell: boolean): void {
+        var player: Player = this.context.getPlayer(playerId);
+        var source: Entity = null;
+        if (sourceReference != null) {
+            source = this.context.resolveSingleTarget(sourceReference);
+        }
+        var spellCard: SpellCard = null;
+        var spellTarget: EntityReference = spellDesc.hasPredefinedTarget() ? spellDesc.getTarget() : targetReference;
+        var targets: List<Entity> = this.targetLogic.resolveTargetKey(this.context, player, source, spellTarget);
+        // target can only be changed when there is one target
+		// note: this code block is basically exclusively for the SpellBender
+		// Secret, but it can easily be expanded if targets of area of effect
+		// spell should be changeable as well
+		var sourceCard: Card = null;
+		if (source != null) {
+		    sourceCard = source.getEntityType() == EntityType.CARD ? <Card> source : null;
+		}
+		if (sourceCard != null && this.isSpellCard(sourceCard.getCardType()) && !spellDesc.hasPredefinedTarget() && targets != null && targets.size() == 1) {
+		    if (sourceCard instanceof SpellCard) {
+		        spellCard = <SpellCard> sourceCard;
+		    }
+		    
+		    if (spellCard != null && spellCard.getTargetRequirement() != TargetSelection.NONE && !childSpell) {
+		        var spellTargetEvent: GameEvent = new TargetAquisitionEvent(this.context, playerId, ActionType.SPELL, spellCard, targets.get(0));
+		        this.context.fireGameEvent(spellTargetEvent);
+		        var targetOverride: Entity = this.context.resolveSingleTarget(<EntityReference> this.context.getEnvironment().get(Environment.TARGET_OVERRIDE));
+		        if (targetOverride != null && targetOverride.getId() != IdFactory.UNASSIGNED) {
+		            targets.remove(0);
+		            targets.add(targetOverride);
+		        }
+		    }
+		}
+		
+		var spell:Spell = this.spellFactory.getSpell(spellDesc);
+		spell.cast(this.context, player, spellDesc, source, targets);
+		
+	    if (spellCard != null) {
+	        this.context.getEnvironment().delete(Environment.TARGET_OVERRIDE);
+	    }
+    }
+    
     public getModifiedManaCost(player: Player, card: Card): number {
         var manaCost: number = card.getManaCost(this.context, player);
         var minValue: number = 0;
@@ -104,6 +149,13 @@ class GameLogic {
             total += minion.getAttributeValue(attr);
         }
         return total;
+    }
+    
+    public isSpellCard(type: CardType) {
+        if (type == CardType.CHOOSE_ONE || type == CardType.SPELL) {
+            return true;
+        }
+        return false;
     }
     
 }

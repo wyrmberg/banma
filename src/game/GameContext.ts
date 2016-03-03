@@ -30,6 +30,10 @@ class GameContext {
         return null;
     }
     
+    public fireGameEvent(gameEvent: GameEvent): void {
+        // TODO
+    }
+    
     public getCardCostModifiers(): CardCostModifier[] {
         return this.cardCostModifiers;
     }

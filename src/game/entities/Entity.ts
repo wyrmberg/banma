@@ -17,6 +17,8 @@ abstract class Entity {
         return this.attributes.has(attribute) ? <number> this.attributes.get(attribute) : 0;
     }
     
+    public abstract getEntityType(): EntityType;
+    
     public getId(): number {
         return this.id;
     }

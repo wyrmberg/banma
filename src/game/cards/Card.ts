@@ -21,6 +21,10 @@ abstract class Card extends Entity {
         return this.cardType;
     }
     
+    public getEntityType(): EntityType {
+        return EntityType.CARD;
+    }
+    
     public getLocation(): CardLocation {
         return this.location;
     }
