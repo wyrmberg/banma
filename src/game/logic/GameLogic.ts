@@ -58,9 +58,9 @@ class GameLogic {
     
     public canSummonMoreMinions(player: Player): boolean {
         var minionsInPlay: number = 0;
-        var minions: Minion[] = player.getMinions();
-        for (var i: number = 0; i < minions.length; ++i) {
-            var minion: Minion = minions[i];
+        var minions: List<Minion> = player.getMinions();
+        for (var i: number = 0; i < minions.size(); ++i) {
+            var minion: Minion = minions.get(i);
             if (minion.isDestroyed()) {
                 continue;
             }
@@ -96,7 +96,7 @@ class GameLogic {
 		        this.context.fireGameEvent(spellTargetEvent);
 		        var targetOverride: Entity = this.context.resolveSingleTarget(<EntityReference> this.context.getEnvironment().get(Environment.TARGET_OVERRIDE));
 		        if (targetOverride != null && targetOverride.getId() != IdFactory.UNASSIGNED) {
-		            targets.remove(0);
+		            targets.removeAt(0);
 		            targets.add(targetOverride);
 		        }
 		    }
@@ -138,9 +138,9 @@ class GameLogic {
     
     public getTotalAttributeValue(player: Player, attr: Attribute): number {
         var total: number = player.getHero().getAttributeValue(attr);
-        var minions: Minion[] = player.getMinions();
-        for (var i: number = 0; i < minions.length; ++i) {
-            var minion: Minion = minions[i];
+        var minions: List<Minion> = player.getMinions();
+        for (var i: number = 0; i < minions.size(); ++i) {
+            var minion: Minion = minions.get(i);
             if (!minion.hasAttribute(attr))
             {
                 continue;

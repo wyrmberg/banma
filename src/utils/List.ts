@@ -2,8 +2,15 @@ class List<T> {
     
     private list: T[];
     
-    constructor() {
+    constructor();
+    constructor(list: List<T>);
+    constructor(list?: List<T>) {
         this.list = [];
+        if (list != null) {
+            for (var i: number = 0; i < list.size(); ++i) {
+                this.add(list[i]);
+            }
+        }
     }
     
     public add(element: T): void {
@@ -27,7 +34,15 @@ class List<T> {
         return this.list[index];
     }
     
-    public remove(index: number): T {
+    public indexOf(element: T): number {
+        return this.list.indexOf(element);
+    }
+    
+    public remove(element: T): T {
+        return this.removeAt(this.list.indexOf(element));
+    }
+    
+    public removeAt(index: number): T {
         return this.list.splice(index, 1)[0];
     }
     

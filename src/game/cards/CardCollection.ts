@@ -1,9 +1,9 @@
 class CardCollection {
     
-    private cards: Card[];
+    private cards: List<Card>;
     
-    public iterator(): Card[] {
-        return this.cards;
+    public toList(): List<Card> {
+        return new List<Card>(this.cards);
     }
     
 }

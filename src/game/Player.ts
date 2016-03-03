@@ -7,7 +7,7 @@ class Player {
     private hand: CardCollection = new CardCollection();
     private setAsideZone: Entity[] = [];
     private graveyard: Entity[] = [];
-    private minions: Minion[] = [];
+    private minions: List<Minion> = new List<Minion>();
     private secrets: Set<string> = new Set<string>();
     
     private id: number = -1;
@@ -38,7 +38,7 @@ class Player {
         return this.mana;
     }
     
-    public getMinions(): Minion[] {
+    public getMinions(): List<Minion> {
         return this.minions;
     }
     

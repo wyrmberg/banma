@@ -20,9 +20,9 @@ class GameContext {
     }
     
     public findCardinCollection(cardCollection: CardCollection, cardId: number): Card {
-        var cards: Card[] = cardCollection.iterator();
-        for (var i: number = 0; i < cards.length; ++i) {
-            var card: Card = cards[i];
+        var cards: List<Card> = cardCollection.toList();
+        for (var i: number = 0; i < cards.size(); ++i) {
+            var card: Card = cards.get(i);
             if (card.getId() == cardId) {
                 return card;
             }
@@ -32,6 +32,25 @@ class GameContext {
     
     public fireGameEvent(gameEvent: GameEvent): void {
         // TODO
+    }
+    
+    public getAdjacentMinions(player: Player, minionReference: EntityReference): List<Actor> {
+        var adjacentsMinions: List<Actor> = new List<Actor>();
+        var minion: Actor = <Actor> this.resolveSingleTarget(minionReference);
+        var minions: List<Minion> = this.getPlayer(minion.getOwner()).getMinions();
+        var index: number = minions.indexOf(minion);
+        if (index == -1) {
+            return null;
+        }
+        var left: number = index - 1;
+        var right: number = index + 1;
+        if (left > -1 && left < minions.size()) {
+            adjacentsMinions.add(minions.get(left));
+        }
+        if (right > -1 && right < minions.size()) {
+            adjacentsMinions.add(minions.get(right));
+        }
+        return adjacentsMinions;
     }
     
     public getCardCostModifiers(): CardCostModifier[] {
@@ -50,7 +69,7 @@ class GameContext {
     }
     
     public getMinionCount(player: Player): number {
-        return player.getMinions().length;
+        return player.getMinions().size();
     }
     
     public getOpponent(player: Player): Player {

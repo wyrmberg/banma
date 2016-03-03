@@ -27,6 +27,10 @@ abstract class Entity {
         return this.name;
     }
     
+    public getReference(): EntityReference {
+        return EntityReference.pointTo(this);
+    }
+    
     public getOwner(): number {
         return this.ownerId;
     }
