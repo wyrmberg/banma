@@ -65,8 +65,33 @@ class TargetLogic {
     }
     
     private getEntities(context: GameContext, player: Player, targetRequirement: TargetSelection): List<Entity> {
-        // TODO
-        return null;
+        var opponent: Player = context.getOpponent(player);
+        var entities: List<Entity> = new List<Entity>();
+        if (targetRequirement == TargetSelection.ENEMY_HERO || targetRequirement == TargetSelection.ENEMY_CHARACTERS ||
+            targetRequirement == TargetSelection.ANY || targetRequirement == TargetSelection.HEROES) {
+            entities.add(opponent.getHero());        
+        }
+        if (targetRequirement == TargetSelection.ENEMY_MINIONS || targetRequirement == TargetSelection.ENEMY_CHARACTERS ||
+            targetRequirement == TargetSelection.MINIONS || targetRequirement == TargetSelection.ANY) {
+            entities.addAll(opponent.getMinions());        
+        }
+        if (targetRequirement == TargetSelection.FRIENDLY_HERO || targetRequirement == TargetSelection.FRIENDLY_CHARACTERS ||
+            targetRequirement == TargetSelection.ANY || targetRequirement == TargetSelection.HEROES) {
+            entities.add(player.getHero());        
+        }
+        if (targetRequirement == TargetSelection.FRIENDLY_MINIONS || targetRequirement == TargetSelection.FRIENDLY_CHARACTERS ||
+            targetRequirement == TargetSelection.MINIONS || targetRequirement == TargetSelection.ANY) {
+            entities.addAll(player.getMinions());        
+        }
+        var destroyedEntities: List<Entity> = new List<Entity>();
+        for (var i: number = 0; i < entities.size(); ++i) {
+            var entity: Entity = entities.get(i);
+            if (entity != null && entity.hasAttribute(Attribute.PENDING_DESTROY)) {
+                destroyedEntities.add(entity);
+            }
+        }
+        entities.removeAll(destroyedEntities);
+        return entities;
     }
     
     public resolveTargetKey(context: GameContext, player: Player, source: Entity, targetKey: EntityReference): List<Entity> {

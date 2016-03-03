@@ -17,6 +17,12 @@ class List<T> {
         this.list.push(element);
     }
     
+    public addAll(elements: List<T>): void {
+        for (var i: number = 0; i < elements.size(); ++i) {
+            this.add(elements.get(i));
+        }
+    }
+    
     public isEmpty(): boolean {
         return this.list.length == 0;
     }
@@ -40,6 +46,15 @@ class List<T> {
     
     public remove(element: T): T {
         return this.removeAt(this.list.indexOf(element));
+    }
+    
+    public removeAll(elements: List<T>): void {
+        for (var i: number = 0; i < elements.size(); ++i) {
+            var index: number = this.list.indexOf(elements.get(i));
+            if (index > -1) {
+                this.removeAt(index);
+            }
+        }
     }
     
     public removeAt(index: number): T {
