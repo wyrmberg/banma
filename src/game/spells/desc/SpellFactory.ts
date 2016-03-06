@@ -1,8 +1,8 @@
 class SpellFactory {
     
     public getSpell(spellDesc: SpellDesc): Spell {
-        // TODO
-        return null;
+        var spellClass: typeof Spell = spellDesc.getSpellClass();
+        return new spellClass();
     }
     
 }

@@ -12,4 +12,8 @@ class SpellDesc extends Desc<SpellArg> {
         return this.arguments.get(SpellArg.TARGET) != null;
     }
     
+    public getSpellClass(): typeof Spell {
+        return this.arguments.get(SpellArg.CLASS);
+    }
+    
 }
