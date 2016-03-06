@@ -9,6 +9,8 @@ class GameContext {
     private environment: Map<Environment, any> = new Map<Environment, any>();
     private cardCostModifiers: CardCostModifier[] = [];
     
+    protected activePlayer: number = -1;
+    
     constructor(player1: Player, player2: Player, logic: GameLogic) {
         this.getPlayers()[GameContext.PLAYER_1] = player1;
         player1.setId(GameContext.PLAYER_1);
@@ -32,6 +34,10 @@ class GameContext {
     
     public fireGameEvent(gameEvent: GameEvent): void {
         // TODO
+    }
+    
+    public getActivePlayer(): Player {
+        return this.getPlayer(this.activePlayer);
     }
     
     public getAdjacentMinions(player: Player, minionReference: EntityReference): List<Actor> {
