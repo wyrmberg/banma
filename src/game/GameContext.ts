@@ -6,10 +6,13 @@ class GameContext {
     private players: Player[];
     private logic: GameLogic;
     private targetLogic: TargetLogic = new TargetLogic();
+    private triggerManager: TriggerManager = new TriggerManager();
     private environment: Map<Environment, any> = new Map<Environment, any>();
     private cardCostModifiers: CardCostModifier[] = [];
     
     protected activePlayer: number = -1;
+    
+    private doIgnoreEvents: boolean;
     
     constructor(player1: Player, player2: Player, logic: GameLogic) {
         this.getPlayers()[GameContext.PLAYER_1] = player1;
@@ -33,7 +36,16 @@ class GameContext {
     }
     
     public fireGameEvent(gameEvent: GameEvent): void {
-        // TODO
+        this.fireGameEventLayer(gameEvent, TriggerLayer.SECRET);
+        this.fireGameEventLayer(gameEvent, TriggerLayer.DEFAULT);
+    }
+    
+    public fireGameEventLayer(gameEvent: GameEvent, layer: TriggerLayer): void {
+        if (this.ignoreEvents()) {
+            return;
+        }
+        gameEvent.setTriggerLayer(layer);
+        this.triggerManager.fireGameEvent(gameEvent);
     }
     
     public getActivePlayer(): Player {
@@ -108,6 +120,10 @@ class GameContext {
             totalMinionCount += this.getMinionCount(this.players[i]);
         }
         return totalMinionCount;
+    }
+    
+    public ignoreEvents(): boolean {
+        return this.doIgnoreEvents;
     }
     
     public resolveCardReference(cardReference: CardReference): Card {

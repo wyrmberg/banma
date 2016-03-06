@@ -1,0 +1,3 @@
+enum TriggerLayer {
+    DEFAULT, SECRET
+}
