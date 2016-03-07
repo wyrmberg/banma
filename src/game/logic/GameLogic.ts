@@ -158,4 +158,19 @@ class GameLogic {
         return false;
     }
     
+    public removeAttribute(entity: Entity, attr: Attribute): void {
+        if (!entity.hasAttribute(attr)) {
+            return;
+        }
+        if (attr == Attribute.MEGA_WINDFURY && entity.hasAttribute(Attribute.WINDFURY)) {
+            entity.modifyAttribute(Attribute.NUMBER_OF_ATTACKS, GameLogic.WINDFURY_ATTACKS - GameLogic.MEGA_WINDFURY_ATTACKS);
+        }
+        if (attr == Attribute.WINDFURY && !entity.hasAttribute(Attribute.MEGA_WINDFURY)) {
+            entity.modifyAttribute(Attribute.NUMBER_OF_ATTACKS, 1 - GameLogic.WINDFURY_ATTACKS);
+        } else if (attr == Attribute.MEGA_WINDFURY) {
+            entity.modifyAttribute(Attribute.NUMBER_OF_ATTACKS, 1 - GameLogic.MEGA_WINDFURY_ATTACKS);
+        }
+        entity.removeAttribute(attr);
+    }
+    
 }

@@ -50,4 +50,19 @@ abstract class Entity {
         return this.hasAttribute(Attribute.DESTROYED);
     }
     
+    public modifyAttribute(attribute: Attribute, value: number): void {
+        if (!this.attributes.has(attribute)) {
+            this.setAttribute(attribute, 0);
+        }
+        this.setAttribute(attribute, this.getAttributeValue(attribute) + value);
+    }
+    
+    public removeAttribute(attribute: Attribute): void {
+        this.attributes.delete(attribute);
+    }
+    
+    public setAttribute(attribute: Attribute, value: number): void {
+        this.attributes.set(attribute, value);
+    }
+    
 }

@@ -52,6 +52,10 @@ class GameContext {
         return this.getPlayer(this.activePlayer);
     }
     
+    public getActivePlayerId(): number {
+        return this.activePlayer;
+    }
+    
     public getAdjacentMinions(player: Player, minionReference: EntityReference): List<Actor> {
         var adjacentsMinions: List<Actor> = new List<Actor>();
         var minion: Actor = <Actor> this.resolveSingleTarget(minionReference);
@@ -84,6 +88,10 @@ class GameContext {
             this.environment.set(Environment.EVENT_TARGET_REFERENCE_STACK, new Stack<EntityReference>());
         }
         return <Stack<EntityReference>> this.environment.get(Environment.EVENT_TARGET_REFERENCE_STACK);
+    }
+    
+    public getLogic(): GameLogic {
+        return this.logic;
     }
     
     public getMinionCount(player: Player): number {
