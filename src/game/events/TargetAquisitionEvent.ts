@@ -11,4 +11,28 @@ class TargetAquisitionEvent extends GameEvent {
         this.target = target;
     }
     
+    public getActionType(): ActionType {
+        return this.actionType
+    }
+    
+    public getEventSource(): Entity {
+        return this.getSource();
+    }
+    
+    public getEventTarget(): Entity {
+        return this.getTarget();
+    }
+    
+    public getEventType(): GameEventType {
+        return GameEventType.TARGET_ACQUISITION;
+    }
+    
+    public getSource(): Entity {
+        return this.source;
+    }
+    
+    public getTarget(): Entity {
+        return this.target;
+    }
+    
 }

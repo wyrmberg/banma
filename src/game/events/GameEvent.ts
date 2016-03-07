@@ -9,6 +9,16 @@ abstract class GameEvent {
         this.playerId = playerId;
     }
     
+    public abstract getEventType(): GameEventType;
+    
+    public getGameContext(): GameContext {
+        return this.context;
+    }
+    
+    public getTriggerLayer(): TriggerLayer {
+        return this.triggerLayer;
+    }
+    
     public setTriggerLayer(triggerLayer: TriggerLayer): void {
         this.triggerLayer = triggerLayer;
     }

@@ -3,6 +3,7 @@ class CardCostModifier implements IGameEventListener {
     private expired: boolean;
     private owner: number;
     private hostReference: EntityReference;
+    private expirationTrigger: GameEventTrigger;
     
     private desc: CardCostModifierDesc;
     
@@ -44,12 +45,28 @@ class CardCostModifier implements IGameEventListener {
         return card.getCardType() == this.getCardType();
     }
     
+    public canFire(event: GameEvent): boolean {
+        return true;
+    }
+    
+    public expire(): void {
+        this.expired = true;
+    }
+    
     protected get(arg: CardCostModifierArg): any {
         return this.desc.get(arg);
     }
     
     public getCardType(): CardType {
         return <CardType> this.desc.get(CardCostModifierArg.CARD_TYPE);
+    }
+    
+    public getHostReference(): EntityReference {
+        return this.hostReference;
+    }
+    
+    public getLayer(): TriggerLayer {
+        return TriggerLayer.DEFAULT;
     }
     
     public getMinValue(): number {
@@ -82,6 +99,32 @@ class CardCostModifier implements IGameEventListener {
         return <TargetPlayer> this.desc.get(CardCostModifierArg.TARGET_PLAYER);
     }
     
+    public interestedIn(eventType: GameEventType): boolean {
+        if (this.expirationTrigger == null) {
+            return false;
+        }
+        return eventType == this.expirationTrigger.interestedIn() || this.expirationTrigger.interestedIn() == GameEventType.ALL;
+    }
+    
+    public isExpired(): boolean {
+        return this.expired;
+    }
+    
+    public onAdd(context: GameContext): void {
+        
+    }
+    
+    public onGameEvent(event: GameEvent): void {
+        var host: Entity = event.getGameContext().resolveSingleTarget(this.getHostReference());
+        if (this.expirationTrigger != null && event.getEventType() == this.expirationTrigger.interestedIn() && this.expirationTrigger.fires(event, host)) {
+            this.expire();
+        }
+    }
+    
+    public onRemove(context: GameContext): void {
+        this.expired = true;
+    }
+    
     public process(card: Card, currentManaCost: number): number {
         var operation: AlgebraicOperation = <AlgebraicOperation> this.desc.get(CardCostModifierArg.OPERATION);
         var value: number = this.desc.getInt(CardCostModifierArg.VALUE);
@@ -110,6 +153,17 @@ class CardCostModifier implements IGameEventListener {
         }
         var modifiedManaCost: number = currentManaCost + this.desc.getInt(CardCostModifierArg.VALUE);
         return modifiedManaCost;
+    }
+    
+    public setHost(host: Entity): void {
+        this.hostReference = host.getReference();
+    }
+    
+    public setOwner(playerIndex: number): void {
+        this.owner = playerIndex;
+        if (this.expirationTrigger != null) {
+            this.expirationTrigger.setOwner(playerIndex);
+        }
     }
     
 }
